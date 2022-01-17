@@ -31,5 +31,11 @@ pipeline {
 
 	    }	
 	}
+	stage('Clear'){
+	    steps {
+		sh 'docker logout'
+		sh 'docker rmi l9xhub/mariadb:latest docker push l9xhub/nginx:latest docker push l9xhub/php-fpm:latest'
+	    }
+	}
      }
 }
