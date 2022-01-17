@@ -4,7 +4,7 @@ pipeline {
     agent any
     environment {
 	DOCKERHUB_CREDENTIALS=credentials('dockerhub-cred-l9xhub')
-	DATE=`date +%s`
+	DATE=sh '`date +%s`'
     }
 
     stages {
