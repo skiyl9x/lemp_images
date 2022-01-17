@@ -4,7 +4,6 @@ pipeline {
     agent any
     environment {
 	DOCKERHUB_CREDENTIALS=credentials('dockerhub-cred-l9xhub')
-	DATE=sh '`date +%s`'
     }
 
     stages {
@@ -13,9 +12,9 @@ pipeline {
                 git branch: 'main',
                     credentialsId: 'eb41fdb4-beeb-428a-9c0e-20b054fd2597',
                     url: 'git@github.com:skiyl9x/lemp_images.git'
-                sh 'docker build -t l9xhub/mariadb:$DATE --target img1 .'
-	 	sh 'docker build -t l9xhub/nginx:$DATE --target img2 .'
-		sh 'docker build -t l9xhub/php-fpm:$DATE --target img3 .'
+                sh 'docker build -t l9xhub/mariadb:latest --target img1 .'
+	 	sh 'docker build -t l9xhub/nginx:latest --target img2 .'
+		sh 'docker build -t l9xhub/php-fpm:latest --target img3 .'
 
             }
         }
@@ -26,16 +25,16 @@ pipeline {
         }
 	stage('Push') {
 	    steps {
-		sh 'docker push l9xhub/mariadb:$DATE'
-		sh 'docker push l9xhub/nginx:$DATE'
-		sh 'docker push l9xhub/php-fpm:$DATE'
+		sh 'docker push l9xhub/mariadb:latest'
+		sh 'docker push l9xhub/nginx:latest'
+		sh 'docker push l9xhub/php-fpm:latest'
 
 	    }	
 	}
 	post {
 		always {
 			sh 'docker logout'
-			sh 'docker rmi l9xhub/mariadb:$DATE l9xhub/nginx:$DATE l9xhub/php-fpm:$DATE'
+			sh 'docker rmi l9xhub/mariadb:latest l9xhub/nginx:latest l9xhub/php-fpm:latest'
 		}
     }
 }
