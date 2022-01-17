@@ -32,10 +32,4 @@ pipeline {
 	    }	
 	}
      }
-     post {
-	always {
-		sh 'docker logout'
-		sh 'docker rmi l9xhub/mariadb:latest l9xhub/nginx:latest l9xhub/php-fpm:latest'
-	       }	
-     }
 }
