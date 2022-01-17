@@ -7,6 +7,12 @@ pipeline {
     }
 
     stages {
+        stage('Login') {
+            steps {
+                sh 'echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin'
+            }
+        }
+
         stage('Build') {
             steps {
                 git branch: 'main',
@@ -16,11 +22,6 @@ pipeline {
 	 	sh 'docker build -t l9xhub/nginx:latest --target img2 .'
 		sh 'docker build -t l9xhub/php-fpm:latest --target img3 .'
 
-            }
-        }
-        stage('Login') {
-            steps {
-		sh 'echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin'
             }
         }
 	stage('Push') {
@@ -35,7 +36,7 @@ pipeline {
      post {
 	always {
 		sh 'docker logout'
-		sh 'docker rmi l9xhub/mariadb:latest l9xhub/nginx:latest l9xhub/php-fpm:latest'
+		sh 'docker rmi l9xhub/mariadb:latest l9xhub/nginx:latest l9xhub/php-fpm:latest -f'
 	       }	
      }
 }
