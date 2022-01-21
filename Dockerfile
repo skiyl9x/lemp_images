@@ -2,6 +2,7 @@
 FROM mariadb:10.7.1 as img1
 
 FROM nginx:1.21 as img2
+RUN rm -f /etc/nginx/conf.d/default.conf
 COPY ./conf/nginx/wordpress.conf /etc/nginx/conf.d/wordpress.conf
 
 FROM php:7-fpm as img3
